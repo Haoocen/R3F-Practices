@@ -5,13 +5,15 @@ interface IProps {
     width?: number,
     length?: number,
     planeColor?: Color,
+    hideAxis?: boolean,
 }
 
 export const PlaneAndAxis: React.FC<IProps> = (
     {
         width,
         length,
-        planeColor
+        planeColor,
+        hideAxis
     }) => {
     return (
         <>
@@ -28,7 +30,11 @@ export const PlaneAndAxis: React.FC<IProps> = (
                 <planeBufferGeometry attach='geometry' args={[width ?? 60, length ?? 40]} />
                 <meshLambertMaterial attach='material' color={planeColor ?? 'lightgray'}/>
             </mesh>
-            <axesHelper args={[Math.min(width ?? 60, length ?? 40) / 2]} />
+            {
+                !hideAxis
+                    ? <axesHelper args={[Math.min(width ?? 60, length ?? 40) / 2]} />
+                    : null
+            }
 
         </>
     )

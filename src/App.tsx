@@ -19,7 +19,7 @@ function App() {
           <Switch>
               {
                   allExamples.map(({render, path}) => (
-                      <Route exact path={path} render={render}/>
+                      <Route key={path} exact path={path} render={render}/>
                   ))
               }
               <Route exact path="/exampleOne">
