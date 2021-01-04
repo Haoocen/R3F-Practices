@@ -1,6 +1,8 @@
 import React from "react";
 import {Canvas} from "react-three-fiber";
 import {OrbitControls} from "drei";
+import {PlaneAndAxis} from "../components/PlanAndAxis";
+import {DefaultLights} from "../components/DefaultLights";
 
 export const Example03: React.FC = () => {
     return (
@@ -15,7 +17,9 @@ export const Example03: React.FC = () => {
                     position: [10, 35, 50],
                 }}
             >
+                <DefaultLights/>
                 <OrbitControls/>
+                <PlaneAndAxis/>
             </Canvas>
         </>
     );
