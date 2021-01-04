@@ -1,8 +1,10 @@
 import {OrbitControls} from 'drei';
-import React from 'react';
-import { Canvas } from 'react-three-fiber'
-import {Color, Face3, Vector3} from "three";
+import React, {useEffect, useRef} from 'react';
+import {Canvas, useFrame} from 'react-three-fiber'
+import {Color, Face3, Geometry, Mesh, MeshBasicMaterial, MeshLambertMaterial, Vector3} from "three";
 import {range} from 'lodash';
+import {DefaultLights} from "../components/DefaultLights";
+import {PlaneAndAxis} from "../components/PlanAndAxis";
 /**
  * Working with Basic components and objects
  */
@@ -19,16 +21,15 @@ export const Example02: React.FC = () => {
                     position: [10, 35, 50],
                 }}
             >
-                <Lights/>
-                <Plane/>
+                <DefaultLights/>
+                <PlaneAndAxis/>
                 <OrbitControls/>
                 {
                     range(10).map((i: number) =>
                         <RandomCube key={i}/>
                     )
                 }
-                <GeometryOne/>
-                <Fog/>
+                <SimpleDiamond/>
             </Canvas>
         </>
     );
@@ -52,88 +53,69 @@ const RandomCube = () => {
     )
 }
 
-const GeometryOne = () => {
+const SimpleDiamond = () => {
+    const ref = useRef<Geometry>(null)
+    const meshRef = useRef<Mesh>(null)
+
+    const materials = [
+        new MeshLambertMaterial({opacity: 0.6, color: 0x44ff44, transparent: true}),
+        new MeshBasicMaterial({color: 0x000000, wireframe: true})
+
+    ];
+
+    /**
+     * Is this the correct way???
+     */
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.computeFaceNormals()
+        }
+    })
+
+    useFrame(() => {
+        if (meshRef.current) {
+            meshRef.current.rotation.y += 0.01
+        }
+    })
+
+    const h = 4 * Math.sin(Math.PI / 3)
+    const w = 2
+
     const vertices = [
-        new Vector3(4,0,1),
-        new Vector3(4,0,-1),
-        new Vector3(1,0,1),
-        new Vector3(1,0,-1),
-        new Vector3(-1,3,-1),
-        new Vector3(-1,3,1),
-        new Vector3(-1,0,-1),
-        new Vector3(-1,0,1)
+        new Vector3(-4,4,0),
+        new Vector3(-w,4,h),
+        new Vector3(w,4,h),
+        new Vector3(4,4,0),
+        new Vector3(w,4,-h),
+        new Vector3(-w,4,-h),
+        new Vector3(0,4,0),
+        new Vector3(0,0,0),
     ];
 
     const faces = [
-        new Face3(0,2,1),
-        new Face3(2,3,1),
-        new Face3(4,6,5),
-        new Face3(6,7,5),
-        new Face3(4,5,1),
-        new Face3(5,0,1),
-        new Face3(7,6,2),
-        new Face3(6,3,2),
-        new Face3(5,7,0),
-        new Face3(7,2,0),
-        new Face3(1,3,4),
-        new Face3(3,6,4),
+        new Face3(0,1,6),
+        new Face3(1,2,6),
+        new Face3(2,3,6),
+        new Face3(3,4,6),
+        new Face3(4,5,6),
+        new Face3(5,0,6),
+        new Face3(0,1,7),
+        new Face3(1,2,7),
+        new Face3(2,3,7),
+        new Face3(3,4,7),
+        new Face3(4,5,7),
+        new Face3(5,0,7),
     ];
 
     return (
-        <group
-            castShadow
-            position={[0, 10, 0]}
-        >
             <mesh
-
-            >
-                <geometry attach="geometry" vertices={vertices} faces={faces}/>
-                <meshBasicMaterial attachArray='material' color='gray' />
-                {/*<meshLambertMaterial attachArray='material' color='gray' transparent/>*/}
-            </mesh>
-
-        </group>
-    )
-}
-
-const Fog = () => {
-    return (
-        <fog name='fog' color={new Color(0xFFFFFF)} near={0.015} far={500}/>
-    )
-}
-
-const Plane = () => {
-    return (
-        <>
-            <mesh
-                rotation={[-0.5 * Math.PI, 0, 0]}
-                receiveShadow
-            >
-                <planeBufferGeometry attach='geometry' args={[60, 40]} />
-                <shadowMaterial opacity={0.3}/>
-            </mesh>
-            <mesh
-                rotation={[-0.5 * Math.PI, 0, 0]}
-            >
-                <planeBufferGeometry attach='geometry' args={[60, 40]} />
-                <meshLambertMaterial attach='material' color='white'/>
-            </mesh>
-        </>
-    )
-}
-
-const Lights = () => {
-    return (
-        <>
-            <spotLight
+                ref={meshRef}
                 castShadow
-                position={[50, 60, 25]}
-                intensity={2}
-            />
-            <ambientLight color={new Color(0x0c0c0c)}/>
-            <spotLight color='white'/>
-            <pointLight position={[-10, 0, -20]} intensity={0.5}/>
-            <pointLight position={[0, -10, 0]} intensity={1.5}/>
-        </>
+                position={[0, 5, 0]}
+                material={materials}
+            >
+                <geometry ref={ref} attach="geometry" vertices={vertices} faces={faces}/>
+                {/*<meshPhongMaterial attachArray='material' color='lightblue'/>*/}
+            </mesh>
     )
 }

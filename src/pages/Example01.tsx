@@ -2,6 +2,8 @@ import { OrbitControls } from 'drei';
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber'
 import {Color, Mesh} from "three";
+import { DefaultLights } from '../components/DefaultLights';
+import {PlaneAndAxis} from "../components/PlanAndAxis";
 
 export const Example01: React.FC = () => {
     return (
@@ -16,7 +18,7 @@ export const Example01: React.FC = () => {
                     position: [10, 35, 50],
                 }}
             >
-                <Lights/>
+                <DefaultLights/>
                 <PlaneAndAxis/>
                 <CubeMesh/>
                 <SphereMesh/>
@@ -26,27 +28,6 @@ export const Example01: React.FC = () => {
     );
 };
 
-const PlaneAndAxis = () => {
-    return (
-        <>
-            <mesh
-                rotation={[-0.5 * Math.PI, 0, 0]}
-                receiveShadow
-            >
-                <planeBufferGeometry attach='geometry' args={[60, 40]} />
-                <shadowMaterial opacity={0.3}/>
-            </mesh>
-            <mesh
-                rotation={[-0.5 * Math.PI, 0, 0]}
-            >
-                <planeBufferGeometry attach='geometry' args={[60, 40]} />
-                <meshBasicMaterial attach='material' color='lightgray'/>
-            </mesh>
-            <axesHelper args={[20]} />
-
-        </>
-    )
-}
 
 const CubeMesh = () => {
     const cube = useRef<Mesh>(null)
@@ -89,24 +70,5 @@ const SphereMesh = () => {
             <sphereGeometry attach='geometry' args={[4, 40, 40]}/>
             <meshLambertMaterial attach='material' color={new Color(0xCC3347)}/>
         </mesh>
-    )
-}
-
-const Lights = () => {
-    return(
-        <>
-            <ambientLight intensity={0.3}/>
-            <spotLight
-                castShadow
-                position={[50, 60, 25]}
-                intensity={2}
-            />
-            <directionalLight
-                position={[0, 10, 0]}
-            />
-            <pointLight position={[-10, 0, -20]} intensity={0.5}/>
-            <pointLight position={[0, -10, 0]} intensity={1.5}/>
-        </>
-
     )
 }
