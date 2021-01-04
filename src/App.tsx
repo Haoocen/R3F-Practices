@@ -3,17 +3,20 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from 'react-router-dom';
 import Home from './pages/Home';
-import {Example_01} from "./pages/Example_01";
+import { Example01 } from "./pages/Example01";
+import { Example02 } from './pages/Example02';
 
 function App() {
   return (
       <Router>
           <Switch>
               <Route exact path="/exampleOne">
-                  <Example_01/>
+                  <Example01/>
+              </Route>
+              <Route exact path="/exampleTwo">
+                  <Example02/>
               </Route>
               <Route exact path="/">
                   <Home/>

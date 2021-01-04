@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber'
 import {Color, Mesh} from "three";
 
-export const Example_01: React.FC = () => {
+export const Example01: React.FC = () => {
     return (
         <>
             <Canvas
