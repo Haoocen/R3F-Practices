@@ -61,11 +61,6 @@ const SphereMesh = () => {
             ref={sphere}
             position={[20, 4, 2]}
             castShadow
-            onClick={ () => {
-                if (sphere.current ) {
-                    sphere.current.position.x += 10
-                }
-            } }
         >
             <sphereGeometry attach='geometry' args={[4, 40, 40]}/>
             <meshLambertMaterial attach='material' color={new Color(0xCC3347)}/>

@@ -1,17 +1,9 @@
-import {Container, Grid, makeStyles, Paper} from '@material-ui/core';
+import {Container, Grid} from '@material-ui/core';
 import React from 'react';
 import {allExamples} from "./examplesUtil";
 import {Link} from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        height: 64,
-        width: '100%',
-    }
-}));
-
 const Home: React.FC = () => {
-    const classes = useStyles();
 
     return (
         <Container maxWidth="lg">
