@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 import {Canvas, useFrame} from "react-three-fiber";
 import {PlaneAndAxis} from "../components/PlanAndAxis";
 import {Button, Container, Slider, Switch, Typography} from "@material-ui/core";
-import {AmbientLight, Color, Mesh, PointLight} from "three";
-import {OrbitControls} from "drei";
+import {AmbientLight, CameraHelper, Color, Mesh, PointLight, SpotLight} from "three";
+import {OrbitControls, useHelper} from "drei";
 import {Color as MaterialColor, ColorPicker} from "material-ui-color";
 import styled from "styled-components";
 import {Space} from "../components/Layouts/Space";
@@ -12,8 +12,15 @@ export const Example04: React.FC = () => {
     return (
         <>
             <AmbientLightDemo/>
-            <Space height={24}/>
+            <Space height={40}/>
             <PointLightDemo/>
+            <Space height={40}/>
+            <SpotLightDemo/>
+            <Space height={40}/>
+            <DirectionLightDemo/>
+            <Space height={80}/>
+
+            end
         </>
     )
 }
@@ -155,9 +162,7 @@ const PointLightDemo: React.FC = () => {
                     <div>
                         <Typography variant="h5">Rotate 360 deg </Typography>
                         <Button onClick={() => animate(120)}>Rotate</Button>
-
                     </div>
-
                     <Space width={24}/>
                     <div>
                         <Typography variant="h5">Light Position: {position.map(v => v.toPrecision(2)).toString()} </Typography>
@@ -184,12 +189,11 @@ const PointLightDemo: React.FC = () => {
                                         (_, value) => handlePosChange(1, value)
                                     }
                                     step={1}
-                                    min={-30}
-                                    max={30}
+                                    min={0}
+                                    max={40}
                                 />
                             </StyledRow>
                             <StyledRow style={{width: 300}}>
-                                <Typography variant="h5">z</Typography>
                                 <Typography variant="h5">z</Typography>
                                 <Space width={8}/>
                                 <Slider
@@ -206,7 +210,7 @@ const PointLightDemo: React.FC = () => {
                     </div>
                 </StyledRow>
             </Container>
-            <Space width={24}/>
+            <Space height={24}/>
             <Wrapper>
                 <Canvas
                     colorManagement
@@ -222,14 +226,156 @@ const PointLightDemo: React.FC = () => {
                     <Sphere pos={[-20,4,20]}/>
                     <Sphere pos={[20,4,-20]}/>
                     <Sphere pos={[-20,4,-20]}/>
+                    <ambientLight intensity={1} color='white' />
 
                     <mesh
                         position={position}
                     >
-                        <ambientLight intensity={1} color='white' />
                         <sphereBufferGeometry attach='geometry' args={[0.5,40,40]}/>
                         <meshLambertMaterial color='red'/>
                     </mesh>
+                </Canvas>
+            </Wrapper>
+        </>
+
+    )
+}
+
+const SpotLightDemo: React.FC = () => {
+
+    const ref = useRef<SpotLight>(null)
+
+    const [distance, setDistance] = useState(25)
+    const [angle, setAngle] = useState(Math.PI / 3)
+
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.distance = distance
+            ref.current.angle = angle
+        }
+    }, [distance, angle])
+
+    return (
+        <>
+            <Container>
+                <Typography variant="h3">Spot Light - the light with a cone effect</Typography>
+                <Typography variant="subtitle1">
+                    A SpotLight is probably one of the lights that you'll use most often (especially
+                    if you want a shadow). You can compare this with a flashlight, or a lantern. This
+                    light has a direction and an angle at which it produces light.
+                </Typography>
+                <Space height={16}/>
+                <StyledRow>
+                    <div>
+                        <Typography variant="h5">Distance {distance}</Typography>
+                        <StyledColumn>
+                            <StyledRow style={{width: 300}}>
+                                <Typography variant="h5">x</Typography>
+                                <Space width={8}/>
+                                <Slider
+                                    value={distance}
+                                    onChange={
+                                        (_, value) => {
+                                            if (typeof value === 'number') {
+                                                setDistance(value)
+                                            }
+                                        }
+                                    }
+                                    step={1}
+                                    min={15}
+                                    max={50}
+                                />
+                            </StyledRow>
+                        </StyledColumn>
+                    </div>
+                    <Space height={16}/>
+                    <div>
+                        <Typography variant="h5">Angle {angle}</Typography>
+                        <StyledColumn>
+                            <StyledRow style={{width: 300}}>
+                                <Typography variant="h5">theta</Typography>
+                                <Space width={8}/>
+                                <Slider
+                                    value={angle}
+                                    onChange={
+                                        (_, value) => {
+                                            if (typeof value === 'number') {
+                                                setAngle(value)
+                                            }
+                                        }
+                                    }
+                                    step={0.1}
+                                    min={0}
+                                    max={Math.PI * 0.8}
+                                />
+                            </StyledRow>
+                        </StyledColumn>
+                    </div>
+                </StyledRow>
+            </Container>
+            <Space height={24}/>
+            <Wrapper>
+                <Canvas
+                    colorManagement
+                    shadowMap
+                    camera={{
+                        position: [10, 20, -40]
+                    }}
+                >
+                    <spotLight
+                        position={[0,20,0]}
+                        intensity={1}
+                        castShadow
+                        angle={Math.PI / 3}
+                        distance={21}
+                        ref={ref}
+                    />
+                    <Sphere pos={[-10 ,10, -10]}/>
+
+                    <mesh
+                        position={[0, 20, 0]}
+                    >
+                        <sphereBufferGeometry attach='geometry' args={[0.5,40,40]}/>
+                        <meshLambertMaterial color='red'/>
+                    </mesh>
+                    <ambientLight intensity={0.5}/>
+                    <OrbitControls/>
+                    <Content/>
+                </Canvas>
+            </Wrapper>
+        </>
+
+    )
+}
+
+
+const DirectionLightDemo: React.FC = () => {
+
+    return (
+        <>
+            <Container>
+                <Typography variant="h3">Directional Light - a far away sun-like light source </Typography>
+                <Typography variant="subtitle1">
+                    A Directional Light source can be seen as a light that is very far away. All the light
+                    rays that it sends out are parallel to each other. A good example for this is the sun.
+                    Everything receives the same intensity of light. Only the direction, the color, and the
+                    intensity of the load is used to calculate the colors and shadows.
+                </Typography>
+                <Space height={16}/>
+            </Container>
+            <Space height={24}/>
+            <Wrapper>
+                <Canvas
+                    colorManagement
+                    shadowMap
+                    camera={{
+                        position: [10, 20, -40]
+                    }}
+                >
+                    <Sphere pos={[-10,10, -10]}/>
+                    <directionalLight position={[0, 100, 0]} intensity={1} castShadow />
+                    <OrbitControls/>
+                    <Content/>
                 </Canvas>
             </Wrapper>
         </>
@@ -250,7 +396,7 @@ const Content = () => {
 
 const Sphere: React.FC<{pos?: [x: number, y: number, z:number]}> = ({pos}) => {
     const sphere = useRef<Mesh>(null)
-    
+
     return (
         <mesh
             ref={sphere}
