@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import React from "react";
 
 export const Space = styled.div<{width?:number,height?: number}>`
   flex-grow: 0;
