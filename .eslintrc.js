@@ -1,7 +1,5 @@
 module.exports = {
     extends: [
-        'airbnb-typescript',
-        'airbnb/hooks',
         'plugin:@typescript-eslint/recommended',
         'plugin:jest/recommended',
         'prettier',
@@ -30,11 +28,13 @@ module.exports = {
     },
     rules: {
         'linebreak-style': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         'prettier/prettier': [
             'error',
             {
                 endOfLine: 'auto',
             },
-        ],
+
+        ]
     },
 };

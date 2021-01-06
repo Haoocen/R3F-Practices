@@ -42,6 +42,9 @@
       "react-app/jest"
     ]
   },
+  "prettier": {
+    "tabWidth": 4
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -60,7 +63,6 @@
     "@types/styled-components": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
-    "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^7.1.0",
