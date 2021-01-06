@@ -1,12 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Canvas, useFrame} from "react-three-fiber";
+import {Canvas} from "react-three-fiber";
 import {PlaneAndAxis} from "../components/PlanAndAxis";
-import {Button, Container, Slider, Switch, Typography} from "@material-ui/core";
-import {AmbientLight, CameraHelper, Color, Mesh, PointLight, SpotLight} from "three";
-import {OrbitControls, useHelper} from "drei";
+import {Button, Container, Slider, Typography} from "@material-ui/core";
+import {AmbientLight, Color, Mesh, PointLight, SpotLight} from "three";
+import {OrbitControls} from "drei";
 import {Color as MaterialColor, ColorPicker} from "material-ui-color";
 import styled from "styled-components";
 import {Space} from "../components/Layouts/Space";
+import {Row, Column} from '../components/Layouts/Flex'
 
 export const Example04: React.FC = () => {
     return (
@@ -57,7 +58,7 @@ const AmbientLightDemo: React.FC = () => {
                     with other light sources
                 </Typography>
                 <Space height={16}/>
-                <StyledRow>
+                <Row>
                     <div>
                         <Typography variant="h5">Color</Typography>
                         <ColorPicker
@@ -78,7 +79,7 @@ const AmbientLightDemo: React.FC = () => {
                             max={5}
                         />
                     </div>
-                </StyledRow>
+                </Row>
             </Container>
             <Space height={24}/>
             <Wrapper>
@@ -158,7 +159,7 @@ const PointLightDemo: React.FC = () => {
                     in the night sky
                 </Typography>
                 <Space height={16}/>
-                <StyledRow>
+                <Row>
                     <div>
                         <Typography variant="h5">Rotate 360 deg </Typography>
                         <Button onClick={() => animate(120)}>Rotate</Button>
@@ -166,8 +167,8 @@ const PointLightDemo: React.FC = () => {
                     <Space width={24}/>
                     <div>
                         <Typography variant="h5">Light Position: {position.map(v => v.toPrecision(2)).toString()} </Typography>
-                        <StyledColumn>
-                            <StyledRow style={{width: 300}}>
+                        <Column>
+                            <Row style={{width: 300}}>
                                 <Typography variant="h5">x</Typography>
                                 <Space width={8}/>
                                 <Slider
@@ -179,8 +180,8 @@ const PointLightDemo: React.FC = () => {
                                     min={-30}
                                     max={30}
                                 />
-                            </StyledRow>
-                            <StyledRow style={{width: 300}}>
+                            </Row>
+                            <Row style={{width: 300}}>
                                 <Typography variant="h5">y</Typography>
                                 <Space width={8}/>
                                 <Slider
@@ -192,8 +193,8 @@ const PointLightDemo: React.FC = () => {
                                     min={0}
                                     max={40}
                                 />
-                            </StyledRow>
-                            <StyledRow style={{width: 300}}>
+                            </Row>
+                            <Row style={{width: 300}}>
                                 <Typography variant="h5">z</Typography>
                                 <Space width={8}/>
                                 <Slider
@@ -205,10 +206,10 @@ const PointLightDemo: React.FC = () => {
                                     min={-30}
                                     max={30}
                                 />
-                            </StyledRow>
-                        </StyledColumn>
+                            </Row>
+                        </Column>
                     </div>
-                </StyledRow>
+                </Row>
             </Container>
             <Space height={24}/>
             <Wrapper>
@@ -265,11 +266,11 @@ const SpotLightDemo: React.FC = () => {
                     light has a direction and an angle at which it produces light.
                 </Typography>
                 <Space height={16}/>
-                <StyledRow>
+                <Row>
                     <div>
                         <Typography variant="h5">Distance {distance}</Typography>
-                        <StyledColumn>
-                            <StyledRow style={{width: 300}}>
+                        <Column>
+                            <Row style={{width: 300}}>
                                 <Typography variant="h5">x</Typography>
                                 <Space width={8}/>
                                 <Slider
@@ -285,14 +286,14 @@ const SpotLightDemo: React.FC = () => {
                                     min={15}
                                     max={50}
                                 />
-                            </StyledRow>
-                        </StyledColumn>
+                            </Row>
+                        </Column>
                     </div>
                     <Space height={16}/>
                     <div>
                         <Typography variant="h5">Angle {angle}</Typography>
-                        <StyledColumn>
-                            <StyledRow style={{width: 300}}>
+                        <Column>
+                            <Row style={{width: 300}}>
                                 <Typography variant="h5">theta</Typography>
                                 <Space width={8}/>
                                 <Slider
@@ -308,10 +309,10 @@ const SpotLightDemo: React.FC = () => {
                                     min={0}
                                     max={Math.PI * 0.8}
                                 />
-                            </StyledRow>
-                        </StyledColumn>
+                            </Row>
+                        </Column>
                     </div>
-                </StyledRow>
+                </Row>
             </Container>
             <Space height={24}/>
             <Wrapper>
@@ -414,19 +415,9 @@ const Sphere: React.FC<{pos?: [x: number, y: number, z:number]}> = ({pos}) => {
     )
 }
 
-const StyledRow = styled.div`
-    display: flex;
-    flex-direction: row;
-`
-
 const Wrapper = styled(Container)`
     height: 500px;
     width: 75%;
     background-color: rgba(250,250,250);
     border: 5px solid grey;    
-`
-
-const StyledColumn = styled.div`
-    display: flex;
-    flex-direction: column;
 `

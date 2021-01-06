@@ -1,6 +1,6 @@
 import {Container, Grid} from '@material-ui/core';
 import React from 'react';
-import {allExamples} from "./examplesUtil";
+import {allExamples, otherExamples} from "./examplesUtil";
 import {Link} from "react-router-dom";
 
 const Home: React.FC = () => {
@@ -12,6 +12,13 @@ const Home: React.FC = () => {
                     {allExamples.map(({path, description}, index) => (
                         <Grid key={path} item>
                             <Link to={path}>Example {index+1}</Link>
+                        </Grid>
+                    ))}
+                </Grid>
+                <Grid container justify="center" spacing={2}>
+                    {otherExamples.map(({path, title}, index) => (
+                        <Grid key={path} item>
+                            <Link to={path}>{title}</Link>
                         </Grid>
                     ))}
                 </Grid>
