@@ -26,7 +26,6 @@ const Controls = () => {
         },
         onChange: ({ z }: { z: number }) => {
             camera.position.z = z;
-            // camera.updateProjectionMatrix()
         },
     });
 

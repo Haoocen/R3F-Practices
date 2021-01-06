@@ -23,7 +23,10 @@ export const Example05: React.FC = () => {
                 <PlaneAndAxis hideAxis />
                 <OrbitControls />
                 <BasicCubes />
+                <FaceCube />
                 <NormalCubes />
+                <LambertCube />
+                <PhongCube />
             </Canvas>
         </>
     );
@@ -90,7 +93,7 @@ const NormalCubes = () => {
 
     return (
         <>
-            <group position={[16, 8, 0]}>
+            <group position={[16, 8, -8]}>
                 <Html position={[-1, 0, 0]}>
                     <Typography variant="h5"> Normal </Typography>
                     <Typography>flat shading</Typography>{" "}
@@ -108,14 +111,59 @@ const NormalCubes = () => {
 const FaceCube = () => {
     return (
         <>
-            <group position={[16, 8, 0]}>
+            <group position={[-8, 2, 0]}>
                 <Html position={[-1, 0, 0]}>
-                    <Typography variant="h5"> Normal </Typography>
-                    <Typography>flat shading</Typography>{" "}
+                    <Typography variant="h5"> Faces </Typography>
                 </Html>
                 <mesh>
-                    <sphereBufferGeometry args={[8, 16, 16]} />
-                    <meshNormalMaterial color={new Color(0x777ff)} />
+                    <boxBufferGeometry attach="geometry" args={[4, 4, 4]} />
+                    <meshBasicMaterial
+                        attachArray="material"
+                        color={new Color(0x765aaa)}
+                    />
+                    <meshBasicMaterial attachArray="material" color="green" />
+                    <meshBasicMaterial attachArray="material" color="blue" />
+                    <meshBasicMaterial attachArray="material" color="cyan" />
+                    <meshBasicMaterial attachArray="material" color="magenta" />
+                    <meshBasicMaterial attachArray="material" color="yellow" />
+                </mesh>
+            </group>
+        </>
+    );
+};
+
+const LambertCube = () => {
+    return (
+        <>
+            <group position={[-20, 4, -8]}>
+                <Html position={[-1, 0, 0]}>
+                    <Typography variant="h5"> Lambert</Typography>
+                </Html>
+                <mesh>
+                    <sphereBufferGeometry
+                        attach="geometry"
+                        args={[4, 30, 30]}
+                    />
+                    <meshLambertMaterial attach="material" color="hotpink" />
+                </mesh>
+            </group>
+        </>
+    );
+};
+
+const PhongCube = () => {
+    return (
+        <>
+            <group position={[-20, 4, 8]}>
+                <Html position={[-1, 0, 0]}>
+                    <Typography variant="h5"> Phong </Typography>
+                </Html>
+                <mesh>
+                    <sphereBufferGeometry
+                        attach="geometry"
+                        args={[4, 30, 30]}
+                    />
+                    <meshPhongMaterial attach="material" color="hotpink" />
                 </mesh>
             </group>
         </>
