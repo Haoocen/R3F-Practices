@@ -5,6 +5,7 @@ import { Example03 } from "./Example03";
 import { Example04 } from "./Example04";
 import { Example05 } from "./Example05";
 import { Snippet01 } from "./Snippet01";
+import { Example06 } from "./Example06";
 
 interface Page {
     render: () => JSX.Element;
@@ -33,6 +34,10 @@ export const allExamples: Page[] = [
         render: () => <Example05 />,
         path: "/example-05",
         description: "Materials (1)",
+    },
+    {
+        render: () => <Example06 />,
+        path: "/example-06",
     },
 ];
 
