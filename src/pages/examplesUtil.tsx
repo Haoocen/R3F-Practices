@@ -9,12 +9,15 @@ import { Example06 } from "./Example06";
 
 import { Lesson03 } from "./journey/Lesson03";
 import { Lesson10 } from "./journey/Lesson10";
+import { Lesson11 } from "./journey/Lesson11";
+
 interface Page {
     render: () => JSX.Element;
     path: string;
     title?: string;
     description?: string;
 }
+
 export const allExamples: Page[] = [
     {
         render: () => <Example01 />,
@@ -55,4 +58,5 @@ export const otherExamples: Page[] = [
 export const threeJsJourney: Page[] = [
     { render: () => <Lesson03 />, path: "/lesson-03", title: "Lesson03" },
     { render: () => <Lesson10 />, path: "/lesson-10", title: "Lesson10" },
+    { render: () => <Lesson11 />, path: "/lesson-11", title: "Lesson11" },
 ];
