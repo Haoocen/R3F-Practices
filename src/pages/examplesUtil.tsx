@@ -8,6 +8,7 @@ import { Snippet01 } from "./Snippet01";
 import { Example06 } from "./Example06";
 
 import { Lesson03 } from "./journey/Lesson03";
+import { Lesson10 } from "./journey/Lesson10";
 interface Page {
     render: () => JSX.Element;
     path: string;
@@ -53,4 +54,5 @@ export const otherExamples: Page[] = [
 
 export const threeJsJourney: Page[] = [
     { render: () => <Lesson03 />, path: "/lesson-03", title: "Lesson03" },
+    { render: () => <Lesson10 />, path: "/lesson-10", title: "Lesson10" },
 ];
