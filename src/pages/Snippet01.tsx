@@ -63,12 +63,12 @@ const SkyBox = () => {
     const loader = new CubeTextureLoader();
     scene.background = loader.load(
         [
-            `${process.env.PUBLIC_URL}/assets/textures/cubemap-parliament/posx.jpg`,
-            `${process.env.PUBLIC_URL}/assets/textures/cubemap-parliament/negx.jpg`,
-            `${process.env.PUBLIC_URL}/assets/textures/cubemap-parliament/posy.jpg`,
-            `${process.env.PUBLIC_URL}/assets/textures/cubemap-parliament/negy.jpg`,
-            `${process.env.PUBLIC_URL}/assets/textures/cubemap-parliament/posz.jpg`,
-            `${process.env.PUBLIC_URL}/assets/textures/cubemap-parliament/negz.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/cubemap-parliament/posx.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/cubemap-parliament/negx.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/cubemap-parliament/posy.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/cubemap-parliament/negy.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/cubemap-parliament/posz.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/cubemap-parliament/negz.jpg`,
         ],
         undefined,
         undefined,
