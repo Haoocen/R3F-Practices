@@ -18,7 +18,6 @@ import {
 import { DefaultLights } from "../../components/DefaultLights";
 import DatGui, { DatSelect, DatNumber, DatBoolean } from "react-dat-gui";
 import "react-dat-gui/dist/index.css";
-import { stat } from "fs";
 import { isUndefined } from "lodash";
 
 interface IProps {
@@ -74,14 +73,14 @@ const Content: React.FC<IProps> = ({
         <>
             <DefaultLights />
             <OrbitControls />
-            <mesh ref={square} material={material}>
+            <mesh ref={square} material={material} position={[-1.5, 0, 0]}>
                 <sphereGeometry args={[0.5, 16, 16]} />
             </mesh>
             <mesh ref={donut} material={material} position={[1.5, 0, 0]}>
                 <torusGeometry args={[0.3, 0.2, 32, 64]} />
             </mesh>
-            <mesh ref={plane} material={material} position={[-1.5, 0, 0]}>
-                <planeGeometry args={[1, 1, 100, 100]} />
+            <mesh ref={plane} material={material}>
+                <planeGeometry args={[1, 1, 64, 64]} />
             </mesh>
         </>
     );
@@ -99,6 +98,12 @@ export const Lesson12: React.FC = () => {
     );
     const matcapTexture = textureLoader.load(
         `${process.env.PUBLIC_URL}/assets/textures/matcaps/8.png`
+    );
+    const doorHeightTexture = textureLoader.load(
+        `${process.env.PUBLIC_URL}/assets/textures/door/height.jpg`
+    );
+    const doorNormalTexture = textureLoader.load(
+        `${process.env.PUBLIC_URL}/assets/textures/door/normal.jpg`
     );
 
     const materialMap: { [key: string]: Material } = {
@@ -134,6 +139,30 @@ export const Lesson12: React.FC = () => {
             color: "blue",
         }),
         standard: new MeshStandardMaterial(),
+        displacement_map: new MeshStandardMaterial({
+            map: doorColorTexture,
+            displacementMap: doorHeightTexture,
+            displacementScale: 0.1,
+        }),
+        displacement_map_wireframe: new MeshStandardMaterial({
+            map: doorColorTexture,
+            displacementMap: doorHeightTexture,
+            wireframe: true,
+            displacementScale: 0.1,
+        }),
+        disp_and_normal: new MeshStandardMaterial({
+            map: doorColorTexture,
+            displacementMap: doorHeightTexture,
+            normalMap: doorNormalTexture,
+            displacementScale: 0.1,
+        }),
+        disp_and_normal_and_alpha: new MeshStandardMaterial({
+            map: doorColorTexture,
+            displacementMap: doorHeightTexture,
+            normalMap: doorNormalTexture,
+            displacementScale: 0.1,
+            alphaMap: doorAlphaTexture,
+        }),
     };
 
     /// DatUI states
@@ -160,12 +189,14 @@ export const Lesson12: React.FC = () => {
                     opacity={state.opacity}
                     double_sided={state.double_sided}
                     metalness={
-                        state.material === "standard"
+                        materialMap[state.material] instanceof
+                        MeshStandardMaterial
                             ? state.metalness
                             : undefined
                     }
                     roughness={
-                        state.material === "standard"
+                        materialMap[state.material] instanceof
+                        MeshStandardMaterial
                             ? state.roughness
                             : undefined
                     }
