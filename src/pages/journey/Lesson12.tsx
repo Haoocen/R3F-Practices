@@ -1,7 +1,8 @@
 import { OrbitControls } from "drei";
 import React, { useRef, useState } from "react";
-import { Canvas, useFrame } from "react-three-fiber";
+import { Canvas, useFrame, useThree } from "react-three-fiber";
 import {
+    CubeTextureLoader,
     DoubleSide,
     Material,
     Mesh,
@@ -13,6 +14,7 @@ import {
     MeshPhongMaterial,
     MeshStandardMaterial,
     MeshToonMaterial,
+    Texture,
     TextureLoader,
 } from "three";
 import { DefaultLights } from "../../components/DefaultLights";
@@ -26,6 +28,7 @@ interface IProps {
     double_sided: boolean;
     metalness?: number;
     roughness?: number;
+    showSkyBox: boolean;
 }
 
 const Content: React.FC<IProps> = ({
@@ -34,6 +37,7 @@ const Content: React.FC<IProps> = ({
     double_sided,
     metalness,
     roughness,
+    showSkyBox,
 }) => {
     const square = useRef<Mesh>(null);
     const donut = useRef<Mesh>(null);
@@ -69,6 +73,12 @@ const Content: React.FC<IProps> = ({
         (material as MeshStandardMaterial).roughness = roughness;
     }
 
+    const { scene } = useThree();
+
+    if (material instanceof MeshStandardMaterial && showSkyBox) {
+        material.envMap = scene.background as Texture;
+    }
+
     return (
         <>
             <DefaultLights />
@@ -82,6 +92,7 @@ const Content: React.FC<IProps> = ({
             <mesh ref={plane} material={material}>
                 <planeGeometry args={[1, 1, 64, 64]} />
             </mesh>
+            {showSkyBox ? <SkyBox /> : null}
         </>
     );
 };
@@ -172,6 +183,7 @@ export const Lesson12: React.FC = () => {
         double_sided: false,
         metalness: 0,
         roughness: 0,
+        showSkyBox: false,
     });
 
     return (
@@ -200,6 +212,7 @@ export const Lesson12: React.FC = () => {
                             ? state.roughness
                             : undefined
                     }
+                    showSkyBox={state.showSkyBox}
                 />
             </Canvas>
             <DatGui
@@ -231,7 +244,30 @@ export const Lesson12: React.FC = () => {
                     max={1}
                     step={0.1}
                 />
+                <DatBoolean path="showSkyBox" label="showSkyBox" />
             </DatGui>
         </>
     );
+};
+
+const SkyBox = () => {
+    const { scene } = useThree();
+    const loader = new CubeTextureLoader();
+    scene.background = loader.load(
+        [
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/1/px.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/1/nx.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/1/py.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/1/ny.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/1/pz.jpg`,
+            `${process.env.PUBLIC_URL}/assets/textures/env_maps/1/nz.jpg`,
+        ],
+        undefined,
+        undefined,
+        (e) => {
+            console.log(e);
+        }
+    );
+
+    return null;
 };
