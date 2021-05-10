@@ -1,18 +1,20 @@
 import { OrbitControls, useHelper } from "drei";
-import React, { useRef } from "react";
-import { Canvas } from "react-three-fiber";
+import React, { useRef, useEffect, useState } from "react";
+import { Canvas, useThree } from "react-three-fiber";
 import {
+    Camera,
+    DirectionalLight,
     DirectionalLightHelper,
     HemisphereLightHelper,
     Mesh,
     MeshStandardMaterial,
     Object3D,
+    PCFSoftShadowMap,
     PointLightHelper,
     SpotLightHelper,
 } from "three";
 
 export const Lesson14: React.FC = () => {
-    const material = new MeshStandardMaterial({ roughness: 0.4 });
     return (
         <Canvas
             colorManagement
@@ -23,6 +25,18 @@ export const Lesson14: React.FC = () => {
             }}
             onCreated={(state) => state.gl.setClearColor("black")}
         >
+            <Content />
+        </Canvas>
+    );
+};
+
+const Content: React.FC = () => {
+    const material = new MeshStandardMaterial({ roughness: 0.4 });
+    const { gl } = useThree();
+    gl.shadowMap.type = PCFSoftShadowMap;
+
+    return (
+        <>
             <Lights />
             <OrbitControls />
             <mesh position={[-1.5, 0, 0]} material={material} castShadow>
@@ -37,12 +51,12 @@ export const Lesson14: React.FC = () => {
             <mesh
                 receiveShadow
                 rotation={[-0.5 * Math.PI, 0, 0]}
-                position={[0, -0.5, 0]}
+                position={[0, -1, 0]}
                 material={material}
             >
                 <planeGeometry args={[5, 5]} />
             </mesh>
-        </Canvas>
+        </>
     );
 };
 
@@ -50,7 +64,7 @@ const Lights: React.FC = () => {
     const spotLightTarget = new Object3D();
     spotLightTarget.position.x = -0.75;
 
-    const directionalLightRef = useRef<Mesh | undefined>(undefined);
+    const directionalLightRef = useRef<DirectionalLight | undefined>(undefined);
     const pointLightRef = useRef<Mesh | undefined>(undefined);
     const spotLightRef = useRef<Mesh | undefined>(undefined);
     const hemisphereLightRef = useRef<Mesh | undefined>(undefined);
@@ -59,6 +73,27 @@ const Lights: React.FC = () => {
     useHelper(pointLightRef, PointLightHelper, 0.2, "yellow");
     useHelper(spotLightRef, SpotLightHelper, "teal");
     useHelper(hemisphereLightRef, HemisphereLightHelper, 0.2);
+
+    const [dCamera, setCamera] = useState<Camera | undefined>(undefined);
+
+    useEffect(() => {
+        // console.log(directionalLightRef.current?.shadow.camera);
+        const s = directionalLightRef.current?.shadow;
+        if (s) {
+            s.mapSize.set(1024, 1024);
+
+            const c = s.camera;
+            // by setting the range of the orthographic camera, we are boosting perfomance
+            // since the showdow map would be smaller
+            c.top = 2;
+            c.bottom = -2;
+            c.left = -2;
+            c.right = 2;
+            c.near = 1;
+            c.far = 4;
+        }
+        setCamera(s?.camera);
+    });
 
     return (
         <group>
@@ -92,6 +127,7 @@ const Lights: React.FC = () => {
                 castShadow
             />
             <primitive object={spotLightTarget} />
+            {dCamera ? <cameraHelper args={[dCamera]} /> : null}
         </group>
     );
 };

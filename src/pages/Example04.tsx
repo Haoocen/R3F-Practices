@@ -1,8 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Canvas } from "react-three-fiber";
 import { PlaneAndAxis } from "../components/PlanAndAxis";
 import { Button, Container, Slider, Typography } from "@material-ui/core";
-import { AmbientLight, Color, Mesh, PointLight, SpotLight } from "three";
+import {
+    AmbientLight,
+    Camera,
+    Color,
+    DirectionalLight,
+    Mesh,
+    PointLight,
+    SpotLight,
+} from "three";
 import { OrbitControls } from "drei";
 import { Color as MaterialColor, ColorPicker } from "material-ui-color";
 import styled from "styled-components";
@@ -375,6 +383,19 @@ const SpotLightDemo: React.FC = () => {
 };
 
 const DirectionLightDemo: React.FC = () => {
+    const [c, s] = useState<Camera | undefined>(undefined);
+
+    const ref = useCallback((l: DirectionalLight) => {
+        if (l) {
+            l.shadow.camera.far = 50;
+            l.shadow.camera.right = 10;
+            l.shadow.camera.left = -15;
+            l.shadow.camera.top = 10;
+            l.shadow.camera.bottom = -12;
+            s(l.shadow.camera);
+        }
+    }, []);
+
     return (
         <>
             <Container>
@@ -400,14 +421,16 @@ const DirectionLightDemo: React.FC = () => {
                         position: [10, 20, -40],
                     }}
                 >
-                    <Sphere pos={[-10, 10, -10]} />
                     <directionalLight
-                        position={[0, 100, 0]}
+                        ref={ref}
+                        position={[-10, 30, 0]}
                         intensity={1}
                         castShadow
                     />
+                    <Sphere pos={[-10, 10, -10]} />
                     <OrbitControls />
                     <Content />
+                    {c ? <cameraHelper args={[c]} /> : null}
                 </Canvas>
             </Wrapper>
         </>
