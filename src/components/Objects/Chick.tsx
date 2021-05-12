@@ -12,7 +12,7 @@ import { useGLTF, useAnimations } from "drei";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { useFrame } from "react-three-fiber";
 
-const MODEL_PATH = `${process.env.PUBLIC_URL}/assets/objects/chick.gltf`;
+const MODEL_PATH = `${process.env.PUBLIC_URL}/assets/objects/Chick.gltf`;
 
 type GLTFResult = GLTF & {
     nodes: {
