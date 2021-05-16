@@ -9,7 +9,7 @@ import {
 
 const App: React.FC = () => {
     return (
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
             <Switch>
                 {[...allExamples, ...otherExamples, ...threeJsJourney].map(
                     ({ render, path }) => (

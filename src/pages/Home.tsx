@@ -30,7 +30,7 @@ const Home: React.FC = () => {
                     ))}
                 </Grid>
             </Grid>
-            <Container style={{ width: "100%", height: window.innerHeight }}>
+            <Container style={{ width: 50, height: 50 }}>
                 <MyCharacter />
             </Container>
         </Container>
