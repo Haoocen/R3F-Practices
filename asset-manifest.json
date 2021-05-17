@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/R3F-Practices/static/css/main.33a78bf6.chunk.css",
-    "main.js": "/R3F-Practices/static/js/main.0e5aeb2e.chunk.js",
-    "main.js.map": "/R3F-Practices/static/js/main.0e5aeb2e.chunk.js.map",
+    "main.js": "/R3F-Practices/static/js/main.a25c5ba5.chunk.js",
+    "main.js.map": "/R3F-Practices/static/js/main.a25c5ba5.chunk.js.map",
     "runtime-main.js": "/R3F-Practices/static/js/runtime-main.9bbdaa91.js",
     "runtime-main.js.map": "/R3F-Practices/static/js/runtime-main.9bbdaa91.js.map",
     "static/css/2.e95eca85.chunk.css": "/R3F-Practices/static/css/2.e95eca85.chunk.css",
-    "static/js/2.c2133ed4.chunk.js": "/R3F-Practices/static/js/2.c2133ed4.chunk.js",
-    "static/js/2.c2133ed4.chunk.js.map": "/R3F-Practices/static/js/2.c2133ed4.chunk.js.map",
+    "static/js/2.61470bab.chunk.js": "/R3F-Practices/static/js/2.61470bab.chunk.js",
+    "static/js/2.61470bab.chunk.js.map": "/R3F-Practices/static/js/2.61470bab.chunk.js.map",
     "index.html": "/R3F-Practices/index.html",
     "static/css/2.e95eca85.chunk.css.map": "/R3F-Practices/static/css/2.e95eca85.chunk.css.map",
     "static/css/main.33a78bf6.chunk.css.map": "/R3F-Practices/static/css/main.33a78bf6.chunk.css.map",
-    "static/js/2.c2133ed4.chunk.js.LICENSE.txt": "/R3F-Practices/static/js/2.c2133ed4.chunk.js.LICENSE.txt"
+    "static/js/2.61470bab.chunk.js.LICENSE.txt": "/R3F-Practices/static/js/2.61470bab.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.9bbdaa91.js",
     "static/css/2.e95eca85.chunk.css",
-    "static/js/2.c2133ed4.chunk.js",
+    "static/js/2.61470bab.chunk.js",
     "static/css/main.33a78bf6.chunk.css",
-    "static/js/main.0e5aeb2e.chunk.js"
+    "static/js/main.a25c5ba5.chunk.js"
   ]
 }
