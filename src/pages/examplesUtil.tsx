@@ -15,6 +15,7 @@ import { Lesson13 } from "./journey/Lesson13";
 import { Lesson14 } from "./journey/Lesson14";
 import { Lesson15 } from "./journey/Lesson15";
 import { Lesson16 } from "./journey/Lesson16";
+import { Lesson21 } from "./journey/Lesson21";
 
 interface Page {
     render: () => JSX.Element;
@@ -69,4 +70,5 @@ export const threeJsJourney: Page[] = [
     { render: () => <Lesson14 />, path: "/lesson-14", title: "Lesson14" },
     { render: () => <Lesson15 />, path: "/lesson-15", title: "HauntedHouse" },
     { render: () => <Lesson16 />, path: "/lesson-16", title: "Lesson16" },
+    { render: () => <Lesson21 />, path: "/lesson-21", title: "Lesson21" },
 ];

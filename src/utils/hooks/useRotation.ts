@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { RefObject, useRef } from "react";
 import { Object3D } from "three";
 import { useFrame } from "react-three-fiber";
 
@@ -8,7 +8,11 @@ interface IParam {
     zSpeed?: number;
 }
 
-export const useRotation = ({ xSpeed, ySpeed, zSpeed }: IParam) => {
+export const useRotation = ({
+    xSpeed,
+    ySpeed,
+    zSpeed,
+}: IParam): RefObject<Object3D> => {
     const ref = useRef<Object3D>(null);
     useFrame(({ clock }) => {
         if (ref.current) {
